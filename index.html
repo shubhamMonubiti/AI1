@@ -1,64 +1,104 @@
 <html>
 
 <head>
+
+</head>
+
 </head>
 
 <body>
 
-<script>
 
+
+
+<script>
   
 
 
   
   var geetafunction = async () => {
-    var api = "https://prodapi.phot.ai/external/api/v3/user_activity/create-art";
-  var apikey= "66bc3827a72cf88f1645529a_a2b7bd078b244225ab1a_apyhitools";
+    var api = "https://api.monsterapi.ai/v1/generate/txt2img";
+    var apikey= "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6IjcwN2E0NDZmZmU4ODY1ZDM1ZGZkZmRjZjg5ODBiZjRmIiwiY3JlYXRlZF9hdCI6IjIwMjQtMDgtMTVUMDg6MDg6NTEuMzcyMzgxIn0.iglU3tCy8fPNcuvos54l1I-aqBZebKrQT-8xraSDar4";
 
-   var option = {
+   var options = {
+
     method:"POST",
+
     headers:{
-      "x-api-key" : `${apikey}` , 
-     "Content-Type": "application/json" 
+      "Authorization" : `Bearer ${apikey}` , 
+     "content-type": "application/json" ,
+     
     },
 
     body: JSON.stringify({
-
-  "prompt": "A beautiful little girl",
-  "guidance_scale": 7.5,
-  "num_outputs": 1,
-  "aspect_ratio": "1:1",
-  "studio_options": {
-    "style": ["cinematic"] // here cinematic is one of the style_id as attached the the description above
-  }
-
+      "prompt" : "genetics machines in a lab" , 
+      "aspect_ratio" : "portrait" , 
+      "guidance_scale" : 12.5
     })
+  } 
+
+  var options2 = {
+    method:"GET",
+    headers:{
+      "Authorization" : `Bearer ${apikey}` ,
+      "accept" : "application/json"
+    }
   }
 
-  
+  var options3 ={
+    method: "GET" ,
+
+    headers:{
+    "accept": "application/json" ,
+    "Authorization" : `Bearer ${apikey}`
+  }
+  }
 
    try{
-      var response =  await fetch(api , option);
+      var response =  await fetch(api , options);
       var data  =  await response.json();
       console.log(response);
       console.log(data);
 
-      var id = `https://prodapi.phot.ai/external/api/v1/user_activity/order-status?order_id={${data.order_id}}`;
 
-      fetch(  id , {
-      method: "GET" , // default, so we can ignore
-     "Authorization" : `Bearer ${apikey}` 
-  }).then((imggen) => imggen.json()).then((json) => console.log(json));
+      var api2 = data.status_url;
 
+      /*
+      var response2 = await fetch(api2 , options2);
+      var data2 = await response2.json();
+      console.log(response2);
+      console.log(data2);
+      document.write(data2.result.status);
+      
+      fetch(api2, options2)
+      .then(response3 => response3.json())
+      .then(response3 => console.log(response3))
+      .catch(err => console.error(err));
+      */
+
+  const options4 = {
+  method: 'GET',
+  headers: {
+    accept: 'application/json',
+    authorization: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6IjcwN2E0NDZmZmU4ODY1ZDM1ZGZkZmRjZjg5ODBiZjRmIiwiY3JlYXRlZF9hdCI6IjIwMjQtMDgtMTVUMDg6MDg6NTEuMzcyMzgxIn0.iglU3tCy8fPNcuvos54l1I-aqBZebKrQT-8xraSDar4'
+  }
+};
+
+fetch(api2, options4)
+  .then(response4 => response4.json())
+  .then(response4 => console.log(response4))
+  .catch(err => console.error(err));
+      
    }catch(error){
     console.error(error);
    }
 
   }
+
+
 </script>
 
 <button onclick="geetafunction()">GENERATE</button>
-
 
 </body>
 
