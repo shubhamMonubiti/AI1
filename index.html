@@ -1,0 +1,65 @@
+<html>
+
+<head>
+</head>
+
+<body>
+
+<script>
+
+  
+
+
+  
+  var geetafunction = async () => {
+    var api = "https://prodapi.phot.ai/external/api/v3/user_activity/create-art";
+  var apikey= "66bc3827a72cf88f1645529a_a2b7bd078b244225ab1a_apyhitools";
+
+   var option = {
+    method:"POST",
+    headers:{
+      "x-api-key" : `${apikey}` , 
+     "Content-Type": "application/json" 
+    },
+
+    body: JSON.stringify({
+
+  "prompt": "A beautiful little girl",
+  "guidance_scale": 7.5,
+  "num_outputs": 1,
+  "aspect_ratio": "1:1",
+  "studio_options": {
+    "style": ["cinematic"] // here cinematic is one of the style_id as attached the the description above
+  }
+
+    })
+  }
+
+  
+
+   try{
+      var response =  await fetch(api , option);
+      var data  =  await response.json();
+      console.log(response);
+      console.log(data);
+
+      var id = `https://prodapi.phot.ai/external/api/v1/user_activity/order-status?order_id={${data.order_id}}`;
+
+      fetch(  id , {
+      method: "GET" , // default, so we can ignore
+     "Authorization" : `Bearer ${apikey}` 
+  }).then((imggen) => imggen.json()).then((json) => console.log(json));
+
+   }catch(error){
+    console.error(error);
+   }
+
+  }
+</script>
+
+<button onclick="geetafunction()">GENERATE</button>
+
+
+</body>
+
+</html>
